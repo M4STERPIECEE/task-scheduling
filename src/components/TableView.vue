@@ -1,5 +1,5 @@
 <template>
-    <div class="tableView" style="display: flex;  margin-top: 20px; margin-bottom: 20px; justify-content: center;"> 
+    <div class="tableView" style="display: flex; flex-wrap: wrap;margin-top: 20px; margin-bottom: 20px; justify-content: center;"> 
         <div style="padding: 4px; border: 1px solid black; font-weight: bold; ">
           <p style="height: 40px; margin: 2px;">Tâches</p>
           <p style="height: 40px; margin: 2px;">Durée</p>

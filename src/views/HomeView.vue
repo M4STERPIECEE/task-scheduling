@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="sidebar">
+    <div class="navigation">
       <h3 class="title">Ordonnancement des tâches</h3>
       <Divider />
 
@@ -21,33 +21,35 @@
         <Divider />
 
         <h3>Liste des tâches</h3>
-        <Card v-for="[key, task] in selectedTable.getTasks" style="margin-bottom: 5px;">
-          <template #content>
-            <div style="display: flex; justify-content: end; gap: 4px;">
-              <Button icon="pi pi-pen-to-square" variant="text" severity="info" raised rounded aria-label="Edit" size="small" 
-               @click="openTaskUpdatingDialog(key, task)" />
-              <Button icon="pi pi-trash" variant="text" severity="danger" raised rounded aria-label="Delete" size="small" 
-               @click="confirmDelete(key, task)"
-              />
-            </div>
-            <p style="margin-top: 0;">Nom: {{ key }}</p>
-            <p>Durée : {{ task.duration }}</p>
-            <p>Marge de retard : {{ task.lateDate - task.earlyDate }}</p>
-            <p style="margin-bottom: 2px;">Tâche(s) antérieure(s) :</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
-              <Chip v-for="previousTask in task.previousTasks" :label="previousTask"/>
-            </div>
-          </template>
-        </Card>
+        <div class="taskLists">
+          <Card v-for="[key, task] in selectedTable.getTasks" style="margin-bottom: 5px;">
+            <template #content>
+              <div style="display: flex; justify-content: end; gap: 4px;">
+                <Button icon="pi pi-pen-to-square" variant="text" severity="info" raised rounded aria-label="Edit" size="small" 
+                 @click="openTaskUpdatingDialog(key, task)" />
+                <Button icon="pi pi-trash" variant="text" severity="danger" raised rounded aria-label="Delete" size="small" 
+                 @click="confirmDelete(key, task)"
+                />
+              </div>
+              <p style="margin-top: 0;">Nom: {{ key }}</p>
+              <p>Durée : {{ task.duration }}</p>
+              <p>Marge de retard : {{ task.lateDate - task.earlyDate }}</p>
+              <p style="margin-bottom: 2px;">Tâche(s) antérieure(s) :</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                <Chip v-for="previousTask in task.previousTasks" :label="previousTask"/>
+              </div>
+            </template>
+          </Card>
+        </div>
       </template>
     </div>
 
     <div class="wrapper">
       <div class="topnav">
-        <div style="grid-column: 1/4; display: flex; justify-content: center;">
+        <div class="tableSelector ">
           <Select v-model="selectedTable" :options="TableList" optionLabel="name" placeholder="Selectionner le tableau" class="w-full md:w-56" />
         </div>
-        <div style="display: flex; justify-content: end;">
+        <div class="addTable">
           <Button label="Créer tableau" icon="pi pi-file-plus" @click="openTableCreationDialog"/>
         </div>
       </div>
@@ -417,14 +419,8 @@ const submitTableCreation = ()=>{
 
 <style scoped lang="scss">
 .home{
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-
-  .sidebar{
-    width: 24%;
+  .navigation{
     padding: 0 15px 15px 15px;
-    overflow-y: scroll;
 
     .title{
       font-size: 1.2rem;
@@ -436,19 +432,82 @@ const submitTableCreation = ()=>{
       margin: 0;
       background-color: #f8fafc;
     }
+
+    .taskLists{
+      display: grid;
+      gap: 5px;
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   .wrapper{
-    width: 76%;
-    overflow-y: scroll;
 
     .topnav{
       display: grid; 
-      grid-template-columns: repeat(4, 1fr); 
-      padding: 8px;
+      grid-template-columns: repeat(2, 1fr); 
+      padding: 10px;
       position: sticky;
       top: 0;
       background-color: white;
+
+      .addTable{
+        display: flex; 
+        justify-content: end;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .home{
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+
+    .navigation{
+      width: 24%;
+      padding: 0 15px 15px 15px;
+      overflow-y: scroll;
+
+      .title{
+        font-size: 1.2rem;
+        text-align: center;
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        padding: 20px;
+        margin: 0;
+        background-color: #f8fafc;
+      }
+
+      .taskLists{
+        display: block;
+      }
+    }
+
+    .wrapper{
+      width: 76%;
+      overflow-y: scroll;
+
+      .topnav{
+        display: grid; 
+        grid-template-columns: repeat(4, 1fr); 
+        padding: 8px;
+        position: sticky;
+        top: 0;
+        background-color: white;
+
+        .tableSelector{
+          grid-column: 1/4; 
+          display: flex; 
+          justify-content: center;
+        }
+
+        .addTable{
+          display: flex; 
+          justify-content: end;
+        }
+      }
     }
   }
 }
