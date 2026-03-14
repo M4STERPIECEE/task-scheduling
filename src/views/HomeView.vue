@@ -53,19 +53,14 @@
           <Button label="Créer tableau" icon="pi pi-file-plus" @click="openTableCreationDialog"/>
         </div>
       </div>
-  
       <Card>
         <template #content>
           <template v-if="selectedTable">
             <TableView :table="selectedTable"/>
-        
             <Divider/>
             <EarlyDateView :table="selectedTable"/>
-      
-            <Divider/>
-            
+            <Divider/>   
             <LateDateView :table="selectedTable"/>
-  
             <Divider/>
             <CriticalPathView :nodes="selectedTable.getNodes" :edges="selectedTable.getEdges"/>
             
@@ -83,7 +78,6 @@
         />
         <Message severity="error" variant="simple" size="small">{{ nameErrorMessage }}</Message>
       </div>
-
       <div v-if="initialNewTableValues.tasks.length>0">
         <p style="margin-bottom: 0;">{{ 
           (initialNewTableValues.tasks.length > 1)? "Tâches" : "Tâche"
@@ -104,12 +98,10 @@
           />
         </div>
       </div>
-
       <Message severity="error" variant="simple" size="small" style="margin-top: 10px;">{{ taskError }}</Message>
       <Divider />
       <div style="display: flex; justify-content: space-between;">
         <Button icon="pi pi-file-plus" raised label="Ajouter tâche" @click="addEmptyTask"/>
-
         <div style="display: flex; gap: 2px;">
           <Button type="submit" icon="pi pi-check" severity="info" raised label="Confirmer"/>
           <Button icon="pi pi-times" severity="danger" @click="isCreationDialogVisible = false" raised label="Annuler"/>
@@ -117,7 +109,6 @@
       </div>
     </form>
   </Dialog>
-
   <Dialog v-model:visible="isAddingTaskDialogVisible" modal close-on-escape header="Ajout d'une nouvelle tâche" :style="{ width: '30rem' }">
     <form @submit.prevent="submitTaskCreation">
       <div>
@@ -129,23 +120,19 @@
         <p style="margin-bottom: 0;">Durée</p>
         <InputNumber v-model="newTask.duration" name="duration" fluid/>
       </div>
-
       <Divider />
-
-      <div style="display: flex; gap: 5px; justify-content: center;">
+      <div Style="display: flex; gap: 5px; justify-content: center;">
         <Button type="submit" icon="pi pi-check" severity="info" raised label="Confirmer"/>
         <Button icon="pi pi-times" severity="danger" @click="isAddingTaskDialogVisible = false" raised label="Annuler"/>
       </div>
     </form>
   </Dialog>
-
   <Dialog v-model:visible="isUpdatingTaskDialogVisible" modal close-on-escape :header='`Mise à jour de la tâche "${selectedTaskKey}"`' :style="{ width: '30rem' }">
     <form @submit.prevent="submitTaskUpdate">
       <div>
         <p style="margin-bottom: 0;">Durée</p>
         <InputNumber v-model="selectedTask.duration" name="duration" fluid/>
       </div>
-
       <div>
         <p style="margin-bottom: 0;">Tâches antérieures</p>
         <MultiSelect v-model="selectedTask.previousTasks" :options="selectedTable?.getTaskArray(selectedTaskKey)" display="chip" filter placeholder="Selectionner" style="width: 80%;" />
