@@ -129,7 +129,6 @@ export class TableModel {
 
         return result;
     }
-
     loadAnswer(){
         this.tasksInCriticalPath = []
         this.orderedTasks = []
